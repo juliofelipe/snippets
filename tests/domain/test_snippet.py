@@ -44,3 +44,18 @@ def test_snippet_model_to_dict():
     snippet = Snippet.from_dict(init_dict)
 
     assert snippet.to_dict() == init_dict
+
+
+def test_snippet_model_comparison():
+    init_dict = {
+        "code": uuid.uuid4(),
+        "language": "Python",
+        "title": "Replace to join",
+        "description": "''.join(data)",
+        "created_at": "2021-11-13"
+    }
+
+    snippet1 = Snippet.from_dict(init_dict)
+    snippet2 = Snippet.from_dict(init_dict)
+
+    assert snippet1 == snippet2
