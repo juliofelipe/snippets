@@ -30,3 +30,17 @@ def test_snippet_model_from_dict():
         "description": "''.join(data)",
         "created_at": "2021-11-13"
     }
+
+
+def test_snippet_model_to_dict():
+    init_dict = {
+        "code": uuid.uuid4(),
+        "language": "Python",
+        "title": "Replace to join",
+        "description": "''.join(data)",
+        "created_at": "2021-11-13"
+    }
+
+    snippet = Snippet.from_dict(init_dict)
+
+    assert snippet.to_dict() == init_dict
