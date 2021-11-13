@@ -19,3 +19,14 @@ def test_snippet_model_init():
     assert snippet.title == "Replace to join"
     assert snippet.description == "''.join(data)"
     assert snippet.created_at == "2021-11-13"
+
+
+def test_snippet_model_from_dict():
+    code = uuid.uuid4()
+    init_dict = {
+        "code": code,
+        "language": "Python",
+        "title": "Replace to join",
+        "description": "''.join(data)",
+        "created_at": "2021-11-13"
+    }

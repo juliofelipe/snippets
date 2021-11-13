@@ -11,3 +11,7 @@ class Snippet:
     title: str
     description: str
     created_at: Optional[date]
+
+    @classmethod
+    def from_dict(cls, d):
+        return cls(**d)
