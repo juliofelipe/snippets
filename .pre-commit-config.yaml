@@ -1,0 +1,41 @@
+repos:
+    - repo: local
+      hooks:
+          - id: isort
+            name: isort
+            stages: [commit]
+            language: system
+            entry: isort src
+            types: [python]
+
+          - id: flake8
+            name: flake8
+            stages: [commit]
+            language: system
+            entry: flake8 src
+            types: [python]
+            exclude: setup.py
+
+          - id: mypy
+            name: mypy
+            stages: [commit]
+            language: system
+            entry: mypy src
+            types: [python]
+            pass_filenames: false
+
+          - id: pytest
+            name: pytest
+            stages: [commit]
+            language: system
+            entry: pytest tests -sv
+            types: [python]
+            pass_filenames: false
+
+          - id: pytest-cov
+            name: pytest
+            stages: [push]
+            language: system
+            entry: pytest tests -sv -p no:warnings --cov=src --cov-fail-under=80
+            types: [python]
+            pass_filenames: false

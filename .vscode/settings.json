@@ -1,0 +1,25 @@
+{
+    "python.pythonPath": "./venv/bin/python",
+    "python.testing.unittestEnabled": true,
+    "python.testing.pytestEnabled": true,
+    "python.testing.pytestArgs": [
+        "-v",
+        "-s",
+        ".",
+        "-p",
+        "*test*.py"
+    ],
+    "python.linting.flake8Enabled": true,
+    "python.linting.flake8Args": [
+        "--max-line-length=120",
+        "exclude=migrations,.venv"
+    ],
+    "editor.formatOnSave": true,
+    "python.formatting.provider": "black",
+    "files.exclude": {
+        "/*.pyc": {
+            "when": ".py"
+        },
+        "/pycache": true,
+    },
+}
