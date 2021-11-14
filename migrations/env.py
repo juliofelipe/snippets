@@ -11,21 +11,16 @@ from alembic import context
 # access to the values within the .ini file in use.
 config = context.config
 
-config = context.config
-
 section = config.config_ini_section
-config.set_section_option(
-    section, "POSTGRES_USER", os.environ.get("POSTGRES_USER")
-)
+config.set_section_option(section, "POSTGRES_USER", os.environ.get("POSTGRES_USER"))
 config.set_section_option(
     section, "POSTGRES_PASSWORD", os.environ.get("POSTGRES_PASSWORD")
 )
 config.set_section_option(
     section, "POSTGRES_HOSTNAME", os.environ.get("POSTGRES_HOSTNAME")
 )
-config.set_section_option(
-    section, "APPLICATION_DB", os.environ.get("APPLICATION_DB")
-)
+config.set_section_option(section, "APPLICATION_DB", os.environ.get("APPLICATION_DB"))
+
 
 # Interpret the config file for Python logging.
 # This line sets up loggers basically.
@@ -83,9 +78,7 @@ def run_migrations_online():
     )
 
     with connectable.connect() as connection:
-        context.configure(
-            connection=connection, target_metadata=target_metadata
-        )
+        context.configure(connection=connection, target_metadata=target_metadata)
 
         with context.begin_transaction():
             context.run_migrations()

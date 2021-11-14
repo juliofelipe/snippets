@@ -1,8 +1,9 @@
 import json
+import os
 
 from flask import Blueprint, request, Response
 
-# from src.repository.memrepo import MemRepo
+from src.repository.memrepo import MemRepo
 from src.repository.postgresrepo import PostgresRepo
 from src.responses import ResponseTypes
 from src.use_cases.snippet_list import snippet_list_use_case
@@ -71,8 +72,8 @@ def snippet_list():
 
     request_object = build_snippet_list_request(filters=qrystr_params["filters"])
 
-    #repo = MemRepo(snippets)
-    repo = PostgresRepo(postgres_configuration)
+    repo = MemRepo(snippets)
+    # repo = PostgresRepo(postgres_configuration)
     response = snippet_list_use_case(repo, request_object)
 
     return Response(
