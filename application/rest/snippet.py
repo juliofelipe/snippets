@@ -2,7 +2,8 @@ import json
 
 from flask import Blueprint, request, Response
 
-from src.repository.memrepo import MemRepo
+# from src.repository.memrepo import MemRepo
+from src.repository.postgresrepo import PostgresRepo
 from src.responses import ResponseTypes
 from src.use_cases.snippet_list import snippet_list_use_case
 from src.serializers.snippet import SnippetJsonEncoder
@@ -17,6 +18,14 @@ STATUS_CODES = {
     ResponseTypes.SYSTEM_ERROR: 500,
 }
 
+
+postgres_configuration = {
+    "POSTGRES_USER": os.environ["POSTGRES_USER"],
+    "POSTGRES_PASSWORD": os.environ["POSTGRES_PASSWORD"],
+    "POSTGRES_NOSTNAME": os.environ["POSTGRES_HOSTNAME"],
+    "POSTGRES_PORT": os.environ["POSTGRES_PORT"],
+    "APPLICATION_DB": os.environ["APPLICATION_DB"],
+}
 
 snippets = [
     {
@@ -62,7 +71,8 @@ def snippet_list():
 
     request_object = build_snippet_list_request(filters=qrystr_params["filters"])
 
-    repo = MemRepo(snippets)
+    #repo = MemRepo(snippets)
+    repo = PostgresRepo(postgres_configuration)
     response = snippet_list_use_case(repo, request_object)
 
     return Response(

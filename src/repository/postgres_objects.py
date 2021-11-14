@@ -14,4 +14,4 @@ class Snippet(Base):
     language = Column(String)
     title = Column(String)
     description = Column(Text)
-    created_at: Column(DateTime)
+    created_at = Column(DateTime)
