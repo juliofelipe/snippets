@@ -3,7 +3,9 @@ import uuid
 from unittest import mock
 
 from src.domain.snippet import Snippet
+from src.requests.snippet_list import SnippetListRequest, build_snippet_list_request
 from src.use_cases.snippet_list import snippet_list_use_case
+from src.responses import ResponseTypes
 
 
 @pytest.fixture
@@ -47,7 +49,53 @@ def test_snippet_list_without_parameters(domain_snippets):
     repo = mock.Mock()
     repo.list.return_value = domain_snippets
 
-    result = snippet_list_use_case(repo)
+    request = build_snippet_list_request()
 
-    repo.list.assert_called_with()
-    assert result == domain_snippets
+    response = snippet_list_use_case(repo, request)
+
+    assert bool(response) is True
+    repo.list.assert_called_with(filters=None)
+    assert response.value == domain_snippets
+
+
+def test_snippet_list_with_filters(domain_snippets):
+    repo = mock.Mock()
+    repo.list.return_value = domain_snippets
+
+    qry_filters = {"code__eq": 5}
+    request = build_snippet_list_request(filters=qry_filters)
+
+    response = snippet_list_use_case(repo, request)
+
+    assert bool(response) is True
+    repo.list.assert_called_with(filters=qry_filters)
+    assert response.value == domain_snippets
+
+
+def test_room_list_handles_generic_error():
+    repo = mock.Mock()
+    repo.list.side_effect = Exception("Just an error message")
+
+    request = build_snippet_list_request(filters={})
+
+    response = snippet_list_use_case(repo, request)
+
+    assert bool(response) is False
+    assert response.value == {
+        "type": ResponseTypes.SYSTEM_ERROR,
+        "message": "Exception: Just an error message"
+    }
+
+
+def test_snippet_list_handles_bad_request():
+    repo = mock.Mock()
+
+    request = build_snippet_list_request(filters=5)
+
+    response = snippet_list_use_case(repo, request)
+
+    assert bool(response) is False
+    assert response.value == {
+        "type": ResponseTypes.PARAMETERS_ERROR,
+        "message": "filters: Is not iterable"
+    }

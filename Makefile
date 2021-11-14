@@ -230,7 +230,7 @@ install_requirements:
     )
 
 unit-tests:
-	${PYTHON} -m pytest -svv tests/unit --cov=src --cov-report=term-missing
+	${PYTHON} -m pytest -svv tests --cov=src --cov-report=term-missing
 
 black:
 	${PYTHON} -m black -l 86 $$(find * -name '*.py')
